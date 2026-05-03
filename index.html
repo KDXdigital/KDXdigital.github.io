@@ -26,11 +26,10 @@
     padding: 14px 60px; background: rgba(10,14,39,0.95);
     border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
     backdrop-filter: blur(10px); flex-wrap: wrap; gap: 12px;
-    height: 56px; overflow: visible;
   }
-  .nav-left { display: flex; align-items: center; gap: 24px; height: 100%; }
-  .nav-logo { display: flex; align-items: center; height: 100%; }
-  .nav-logo img { height: 252px; width: auto; margin-top: 98px; }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo img { height: 38px; width: auto; }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
   .nav-links a:hover { color: var(--teal); }
@@ -45,8 +44,15 @@
   .lang-btn.active { background: rgba(0,212,170,0.15); border-color: var(--teal); color: var(--teal); }
   .lang-btn:hover { border-color: var(--teal); color: var(--teal); }
 
+  /* Logo Banner */
+  .logo-banner {
+    text-align: center; padding: 30px 20px 10px;
+    background: var(--bg);
+  }
+  .logo-banner img { height: 180px; width: auto; }
+
   .hero {
-    padding: 200px 60px 80px; text-align: center; position: relative; overflow: hidden;
+    padding: 100px 60px 80px; text-align: center; position: relative; overflow: hidden;
   }
   .hero::before {
     content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
@@ -157,6 +163,11 @@
 </style>
 </head>
 <body>
+
+<!-- LOGO BANNER -->
+<div class="logo-banner">
+  <img src="KDX_Digital_Logo.svg" alt="KDX Digital">
+</div>
 
 <!-- NAV -->
 <nav>
