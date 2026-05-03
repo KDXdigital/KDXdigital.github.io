@@ -126,6 +126,33 @@
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 11px; }
   }
+
+  /* Contact Form */
+  .contact-section { padding: 80px 60px; text-align: center; background: radial-gradient(ellipse at center, rgba(0,212,170,0.06) 0%, transparent 70%); }
+  .contact-form {
+    max-width: 520px; margin: 0 auto; text-align: left;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 36px 32px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); letter-spacing: 0.5px; }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text); font-size: 14px; font-family: inherit;
+    transition: border-color 0.2s; outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--teal); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 700;
+    letter-spacing: 1px; cursor: pointer; border: none; font-family: inherit;
+    background: linear-gradient(135deg, var(--teal), var(--blue)); color: #0A0E27;
+    transition: all 0.25s;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,170,0.3); }
+  .form-success { display: none; text-align: center; padding: 40px 20px; }
+  .form-success h3 { font-size: 22px; margin-bottom: 10px; }
+  .form-success p { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -316,12 +343,44 @@
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta" id="contact">
-  <h2 data-key="cta_title">Ready to Automate?</h2>
-  <p data-key="cta_sub">Let's discuss which AI agent fits your workflow — or build one together.</p>
-  <a href="mailto:hello@kdxdigital.com" class="btn btn-primary" data-key="cta_btn">Get in Touch</a>
-</div>
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label" data-key="contact_label">CONTACT</div>
+  <div class="section-title" data-key="contact_title">Get in Touch</div>
+  <div class="section-sub" data-key="contact_sub">Interested in our AI agents or consulting? Drop us a message and we'll get back to you within 24 hours.</div>
+
+  <div class="contact-form" id="contactForm">
+    <form action="https://formsubmit.co/dankwanca@gmail.com" method="POST" onsubmit="return handleSubmit()">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="New inquiry from KDX Digital website">
+      <input type="hidden" name="_next" value="https://kdxdigital.github.io/?thanks=1">
+      <input type="hidden" name="_template" value="table">
+      
+      <div class="form-group">
+        <label data-key="form_name">Name *</label>
+        <input type="text" name="name" required placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label data-key="form_email">Email *</label>
+        <input type="email" name="email" required placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label data-key="form_company">Company</label>
+        <input type="text" name="company" placeholder="Your company (optional)">
+      </div>
+      <div class="form-group">
+        <label data-key="form_message">Message *</label>
+        <textarea name="message" required placeholder="Tell us about your needs — what are you looking to automate?"></textarea>
+      </div>
+      <button type="submit" class="form-submit" data-key="form_submit">Send Message</button>
+    </form>
+  </div>
+
+  <div class="form-success" id="formSuccess">
+    <h3 data-key="form_thanks">✅ Thanks for reaching out!</h3>
+    <p data-key="form_thanks_sub">We've received your message and will get back to you within 24 hours.</p>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -377,6 +436,9 @@ const translations = {
     cons_tag4: "Custom Model Fine-Tuning", cons_tag5: "RAG Pipeline Setup", cons_tag6: "Production Deployment",
     cons_tag7: "Ongoing Support & Monitoring", cons_tag8: "Team Training",
     cta_title: "Ready to Automate?", cta_sub: "Let's discuss which AI agent fits your workflow — or build one together.", cta_btn: "Get in Touch",
+    contact_label: "CONTACT", contact_title: "Get in Touch", contact_sub: "Interested in our AI agents or consulting? Drop us a message and we'll get back to you within 24 hours.",
+    form_name: "Name *", form_email: "Email *", form_company: "Company", form_message: "Message *",
+    form_submit: "Send Message", form_thanks: "✅ Thanks for reaching out!", form_thanks_sub: "We've received your message and will get back to you within 24 hours.",
   },
 
   "zh-Hant": {
@@ -424,6 +486,9 @@ const translations = {
     cons_tag4: "客製化模型微調", cons_tag5: "RAG流程設置", cons_tag6: "生產環境部署",
     cons_tag7: "持續支援與監控", cons_tag8: "團隊培訓",
     cta_title: "準備好自動化了嗎？", cta_sub: "讓我們討論哪個AI智能體適合您的工作流程——或一起構建一個。", cta_btn: "與我們聯繫",
+    contact_label: "聯絡我們", contact_title: "與我們聯繫", contact_sub: "對我們的AI智能體或諮詢服務感興趣？請留言，我們將在24小時內回覆。",
+    form_name: "姓名 *", form_email: "電郵 *", form_company: "公司", form_message: "訊息 *",
+    form_submit: "發送訊息", form_thanks: "✅ 感謝您的查詢！", form_thanks_sub: "我們已收到您的訊息，將在24小時內與您聯繫。",
   },
 
   "zh-Hans": {
@@ -471,6 +536,9 @@ const translations = {
     cons_tag4: "定制化模型微调", cons_tag5: "RAG流程设置", cons_tag6: "生产环境部署",
     cons_tag7: "持续支持与监控", cons_tag8: "团队培训",
     cta_title: "准备好自动化了吗？", cta_sub: "让我们讨论哪个AI智能体适合您的工作流程——或一起构建一个。", cta_btn: "与我们联系",
+    contact_label: "联系我们", contact_title: "与我们联系", contact_sub: "对我们的AI智能体或咨询服务感兴趣？请留言，我们将在24小时内回复。",
+    form_name: "姓名 *", form_email: "邮箱 *", form_company: "公司", form_message: "信息 *",
+    form_submit: "发送信息", form_thanks: "✅ 感谢您的查询！", form_thanks_sub: "我们已收到您的信息，将在24小时内与您联系。",
   }
 };
 
@@ -501,6 +569,19 @@ function switchLang(lang) {
 (function() {
   try { const saved = localStorage.getItem('kdx_lang'); if (saved && translations[saved]) switchLang(saved); } catch(e) {}
 })();
+
+// Contact form — show success if redirected back with ?thanks=1
+(function() {
+  if (window.location.search.includes('thanks=1')) {
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+})();
+
+function handleSubmit() {
+  // Brief flash before formsubmit.co redirects
+  return true;
+}
 </script>
 
 </body>
