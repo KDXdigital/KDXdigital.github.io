@@ -23,13 +23,14 @@
 
   nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 60px; background: rgba(10,14,39,0.95);
+    padding: 14px 60px; background: rgba(10,14,39,0.95);
     border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
     backdrop-filter: blur(10px); flex-wrap: wrap; gap: 12px;
+    height: 56px; overflow: visible;
   }
-  .nav-left { display: flex; align-items: center; gap: 24px; }
-  .nav-logo { display: flex; align-items: center; gap: 0; }
-  .nav-logo img { height: 126px; width: auto; }
+  .nav-left { display: flex; align-items: center; gap: 24px; height: 100%; }
+  .nav-logo { display: flex; align-items: center; height: 100%; }
+  .nav-logo img { height: 126px; width: auto; margin-top: 35px; }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
   .nav-links a:hover { color: var(--teal); }
