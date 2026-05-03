@@ -44,16 +44,13 @@
   .lang-btn.active { background: rgba(0,212,170,0.15); border-color: var(--teal); color: var(--teal); }
   .lang-btn:hover { border-color: var(--teal); color: var(--teal); }
 
-  /* Logo Banner */
-  .logo-banner {
-    text-align: center; padding: 30px 20px 10px;
-    background: var(--bg);
-  }
-  .logo-banner img { height: 300px; width: auto; }
-
   .hero {
-    padding: 100px 60px 80px; text-align: center; position: relative; overflow: hidden;
+    padding: 80px 60px; text-align: left; position: relative; overflow: hidden;
+    display: flex; align-items: center; gap: 60px; max-width: 1200px; margin: 0 auto;
   }
+  .hero-logo { flex: 0 0 auto; }
+  .hero-logo img { height: 240px; width: auto; }
+  .hero-content { flex: 1 1 auto; }
   .hero::before {
     content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
     width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
@@ -128,7 +125,8 @@
     .consulting-banner { flex-direction: column; }
     nav { padding: 16px 24px; }
     section { padding: 50px 24px; }
-    .hero { padding: 60px 24px; }
+    .hero { padding: 40px 24px; flex-direction: column; text-align: center; }
+    .hero-logo img { height: 140px; }
     .hero h1 { font-size: 34px; }
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 11px; }
@@ -164,11 +162,6 @@
 </head>
 <body>
 
-<!-- LOGO BANNER -->
-<div class="logo-banner">
-  <img src="KDX_Digital_Logo.svg" alt="KDX Digital">
-</div>
-
 <!-- NAV -->
 <nav>
   <div class="nav-left">
@@ -189,12 +182,17 @@
 
 <!-- HERO -->
 <header class="hero">
+  <div class="hero-logo">
+    <img src="KDX_Digital_Logo.svg" alt="KDX Digital">
+  </div>
+  <div class="hero-content">
   <div class="hero-badge" data-key="hero_badge">🚀 VERTICAL AI AGENTS</div>
   <h1 data-key="hero_title">AI Agents That <span>Work For You</span></h1>
   <p data-key="hero_sub">KDX Digital builds purpose-built AI agents that automate your most repetitive, high-volume workflows — from recruiting top talent to ensuring software quality at scale.</p>
   <div class="hero-buttons">
     <a href="#products" class="btn btn-primary" data-key="hero_btn1">Explore Products</a>
     <a href="#contact" class="btn btn-outline" data-key="hero_btn2">Book a Demo</a>
+  </div>
   </div>
 </header>
 
