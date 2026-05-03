@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KDX Digital — Vertical AI Agents</title>
+<style>
+  :root {
+    --bg: #0A0E27;
+    --bg2: #0D1230;
+    --card: #111838;
+    --teal: #00D4AA;
+    --blue: #0099CC;
+    --text: #E0E8F0;
+    --muted: #7A8A9A;
+    --border: rgba(0,212,170,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, 'Microsoft YaHei', 'PingFang SC', 'PingFang TC', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+  }
+
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 60px; background: rgba(10,14,39,0.95);
+    border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px); flex-wrap: wrap; gap: 12px;
+  }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
+  .nav-logo { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: var(--teal); }
+  .nav-logo span { color: var(--text); font-weight: 400; font-size: 14px; letter-spacing: 2px; margin-left: 6px; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
+  .nav-links a:hover { color: var(--teal); }
+
+  /* Lang Switcher */
+  .lang-switcher { display: flex; gap: 4px; }
+  .lang-btn {
+    padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px;
+    background: transparent; color: var(--muted); font-size: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .lang-btn.active { background: rgba(0,212,170,0.15); border-color: var(--teal); color: var(--teal); }
+  .lang-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  .hero {
+    padding: 100px 60px 80px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block; padding: 6px 18px; border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 20px; font-size: 12px; letter-spacing: 2px; color: var(--teal); margin-bottom: 30px;
+  }
+  .hero h1 { font-size: 52px; font-weight: 900; letter-spacing: -1px; margin-bottom: 20px; position: relative; }
+  .hero h1 span { background: linear-gradient(135deg, var(--teal), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { font-size: 18px; color: var(--muted); max-width: 700px; margin: 0 auto 40px; line-height: 1.7; }
+  .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 14px 32px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    letter-spacing: 1px; cursor: pointer; transition: all 0.25s; text-decoration: none; display: inline-block;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #0A0E27; border: none; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,170,0.3); }
+  .btn-outline { border: 1px solid var(--teal); color: var(--teal); background: transparent; }
+  .btn-outline:hover { background: rgba(0,212,170,0.08); }
+
+  section { padding: 80px 60px; }
+  .section-label { font-size: 12px; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; margin-bottom: 16px; }
+  .section-title { font-size: 36px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .section-sub { font-size: 16px; color: var(--muted); max-width: 700px; margin-bottom: 50px; line-height: 1.7; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 36px 28px; transition: all 0.3s;
+  }
+  .service-card:hover { transform: translateY(-4px); border-color: rgba(0,212,170,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .service-icon { font-size: 36px; margin-bottom: 20px; }
+  .service-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.3px; }
+  .service-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { padding: 4px 12px; border-radius: 6px; font-size: 11px; letter-spacing: 0.5px; background: rgba(0,212,170,0.1); color: var(--teal); }
+
+  .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .feature-item { display: flex; gap: 16px; padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+  .feature-icon { font-size: 24px; min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(0,212,170,0.08); border-radius: 10px; }
+  .feature-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .feature-text p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .steps { display: flex; gap: 20px; }
+  .step { flex: 1; text-align: center; padding: 30px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+  .step-num { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; color: #0A0E27; margin: 0 auto 16px; }
+  .step h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .consulting-banner {
+    background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,153,204,0.08));
+    border: 1px solid var(--border); border-radius: 16px; padding: 48px;
+    display: flex; gap: 40px; align-items: center;
+  }
+  .consulting-banner h3 { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+  .consulting-banner p { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
+  .consulting-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .consulting-list .tag { background: rgba(0,153,204,0.12); color: var(--blue); font-size: 12px; }
+
+  .cta { text-align: center; padding: 100px 60px; background: radial-gradient(ellipse at center, rgba(0,212,170,0.06) 0%, transparent 70%); }
+  .cta h2 { font-size: 36px; font-weight: 900; margin-bottom: 16px; }
+  .cta p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+
+  footer { padding: 40px 60px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 900px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .consulting-banner { flex-direction: column; }
+    nav { padding: 16px 24px; }
+    section { padding: 50px 24px; }
+    .hero { padding: 60px 24px; }
+    .hero h1 { font-size: 34px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo">KDX<span>DIGITAL</span></div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('zh-Hant')">繁</button>
+      <button class="lang-btn" onclick="switchLang('zh-Hans')">简</button>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#products" data-key="nav_products">Products</a>
+    <a href="#features" data-key="nav_features">Features</a>
+    <a href="#consulting" data-key="nav_consulting">Consulting</a>
+    <a href="#contact" data-key="nav_contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge" data-key="hero_badge">🚀 VERTICAL AI AGENTS</div>
+  <h1 data-key="hero_title">AI Agents That <span>Work For You</span></h1>
+  <p data-key="hero_sub">KDX Digital builds purpose-built AI agents that automate your most repetitive, high-volume workflows — from recruiting top talent to ensuring software quality at scale.</p>
+  <div class="hero-buttons">
+    <a href="#products" class="btn btn-primary" data-key="hero_btn1">Explore Products</a>
+    <a href="#contact" class="btn btn-outline" data-key="hero_btn2">Book a Demo</a>
+  </div>
+</header>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-label" data-key="products_label">PRODUCTS</div>
+  <div class="section-title" data-key="products_title">Vertical AI Agents</div>
+  <div class="section-sub" data-key="products_sub">Ready-to-deploy AI agents for specific business functions. No building required — just configure and go.</div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <h3 data-key="recruit_title">Recruitment Automation Agent</h3>
+      <p data-key="recruit_desc">End-to-end recruitment pipeline powered by AI. From JD intake and LinkedIn sourcing to WhatsApp candidate outreach, consultant screening, and client interview coordination — fully automated.</p>
+      <div class="service-tags">
+        <span class="tag">LinkedIn Sourcing</span>
+        <span class="tag" data-key="tag_resume">Resume Matching</span>
+        <span class="tag">WhatsApp Bot</span>
+        <span class="tag" data-key="tag_scheduling">Interview Scheduling</span>
+        <span class="tag" data-key="tag_ats">ATS Integration</span>
+        <span class="tag" data-key="tag_analytics">Pipeline Analytics</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🧪</div>
+      <h3 data-key="qa_title">Software QA Automation Agent</h3>
+      <p data-key="qa_desc">AI-powered test generation and execution. Automatically creates test cases from requirements, runs regression suites, detects flaky tests, and reports bugs with actionable context — reducing QA cycles by up to 70%.</p>
+      <div class="service-tags">
+        <span class="tag" data-key="tag_testgen">Test Case Generation</span>
+        <span class="tag" data-key="tag_regression">Regression Testing</span>
+        <span class="tag" data-key="tag_bug">Bug Detection</span>
+        <span class="tag">CI/CD Integration</span>
+        <span class="tag" data-key="tag_flaky">Flaky Test Analysis</span>
+        <span class="tag" data-key="tag_coverage">Coverage Reports</span>
+      </div>
+    </div>
+
+    <div class="service-card" style="border-color: rgba(0,153,204,0.3);">
+      <div class="service-icon">⚡</div>
+      <h3 data-key="custom_title">Custom AI Agents</h3>
+      <p data-key="custom_desc">Have a unique workflow? We build bespoke AI agents tailored to your industry, your data, and your processes. Finance, legal, logistics, customer support — whatever you need automated.</p>
+      <div class="service-tags">
+        <span class="tag" data-key="tag_custom_wf">Custom Workflows</span>
+        <span class="tag" data-key="tag_industry">Industry-Specific</span>
+        <span class="tag">API Integration</span>
+        <span class="tag" data-key="tag_onprem">On-Premise Option</span>
+        <span class="tag" data-key="tag_support">Dedicated Support</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background: var(--bg2);">
+  <div class="section-label" data-key="features_label">WHY KDX</div>
+  <div class="section-title" data-key="features_title">Built for Business, Not Just Demos</div>
+  <div class="section-sub" data-key="features_sub">Our agents are production-grade — secure, scalable, and integrated with the tools you already use.</div>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">🔌</div>
+      <div class="feature-text">
+        <h4 data-key="feat_whatsapp">WhatsApp & Email Integration</h4>
+        <p data-key="feat_whatsapp_desc">Agents communicate natively through WhatsApp and email — no new apps for your team or customers to learn.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📊</div>
+      <div class="feature-text">
+        <h4 data-key="feat_excel">Excel & ATS Integration</h4>
+        <p data-key="feat_excel_desc">All data syncs to Excel spreadsheets — your existing workflow, supercharged. No database migration needed.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-text">
+        <h4 data-key="feat_compliance">Compliance & Audit Trail</h4>
+        <p data-key="feat_compliance_desc">Every action logged. Every decision traceable. Built for regulated industries that need transparency.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-text">
+        <h4 data-key="feat_multi">Multi-Industry Support</h4>
+        <p data-key="feat_multi_desc">Agents understand banking, finance, technology, and more. Industry-specific compliance and terminology built in.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">⚙️</div>
+      <div class="feature-text">
+        <h4 data-key="feat_config">Configurable, No Code</h4>
+        <p data-key="feat_config_desc">Change agency name, consultants, thresholds — everything is spreadsheet-configurable. Zero code changes to rebrand.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">☁️</div>
+      <div class="feature-text">
+        <h4 data-key="feat_cloud">Cloud or On-Premise</h4>
+        <p data-key="feat_cloud_desc">Deploy on your infrastructure or ours. Full data sovereignty — your data never leaves your control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label" data-key="how_label">HOW IT WORKS</div>
+  <div class="section-title" data-key="how_title">Deploy in Days, Not Months</div>
+  <div class="section-sub" data-key="how_sub">Our vertical agents come pre-built for specific use cases. You configure, we deploy, you run.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4 data-key="step1_title">Choose Your Agent</h4>
+      <p data-key="step1_desc">Pick from our ready-to-deploy vertical agents — Recruitment, QA, or request a custom build.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4 data-key="step2_title">Configure & Brand</h4>
+      <p data-key="step2_desc">Set your agency name, team members, WhatsApp numbers, and preferences in a simple spreadsheet.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4 data-key="step3_title">Connect & Launch</h4>
+      <p data-key="step3_desc">Pair your WhatsApp Business number, point to your data folders, and go live. Training included.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4 data-key="step4_title">Monitor & Scale</h4>
+      <p data-key="step4_desc">Track pipeline metrics in real-time. Add more agents, more users, more workflows as you grow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONSULTING -->
+<section id="consulting" style="background: var(--bg2);">
+  <div class="section-label" data-key="consult_label">SERVICES</div>
+  <div class="section-title" data-key="consult_title">AI Consulting</div>
+  <div class="section-sub" data-key="consult_sub">Need something bespoke? We design and build custom AI agents for your unique business challenges.</div>
+
+  <div class="consulting-banner">
+    <div style="flex: 1;">
+      <h3 data-key="consult_heading">We Build AI Agents<br>For Your Business</h3>
+      <p data-key="consult_desc">From discovery to deployment, our team works with you to identify automation opportunities, design the agent architecture, integrate with your existing systems, and ensure production readiness.</p>
+      <div class="consulting-list">
+        <span class="tag" data-key="cons_tag1">Discovery Workshop</span>
+        <span class="tag" data-key="cons_tag2">Agent Architecture Design</span>
+        <span class="tag" data-key="cons_tag3">API & System Integration</span>
+        <span class="tag" data-key="cons_tag4">Custom Model Fine-Tuning</span>
+        <span class="tag" data-key="cons_tag5">RAG Pipeline Setup</span>
+        <span class="tag" data-key="cons_tag6">Production Deployment</span>
+        <span class="tag" data-key="cons_tag7">Ongoing Support & Monitoring</span>
+        <span class="tag" data-key="cons_tag8">Team Training</span>
+      </div>
+    </div>
+    <div style="font-size: 64px; opacity: 0.3;">🧠</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta" id="contact">
+  <h2 data-key="cta_title">Ready to Automate?</h2>
+  <p data-key="cta_sub">Let's discuss which AI agent fits your workflow — or build one together.</p>
+  <a href="mailto:hello@kdxdigital.com" class="btn btn-primary" data-key="cta_btn">Get in Touch</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 KDX Digital Ltd. All rights reserved.</div>
+  <div>hello@kdxdigital.com</div>
+</footer>
+
+<!-- ── MULTI-LANGUAGE SCRIPT ── -->
+<script>
+const translations = {
+  en: {
+    nav_products: "Products", nav_features: "Features", nav_consulting: "Consulting", nav_contact: "Contact",
+    hero_badge: "🚀 VERTICAL AI AGENTS",
+    hero_title: 'AI Agents That <span>Work For You</span>',
+    hero_sub: "KDX Digital builds purpose-built AI agents that automate your most repetitive, high-volume workflows — from recruiting top talent to ensuring software quality at scale.",
+    hero_btn1: "Explore Products", hero_btn2: "Book a Demo",
+    products_label: "PRODUCTS", products_title: "Vertical AI Agents",
+    products_sub: "Ready-to-deploy AI agents for specific business functions. No building required — just configure and go.",
+    recruit_title: "Recruitment Automation Agent",
+    recruit_desc: "End-to-end recruitment pipeline powered by AI. From JD intake and LinkedIn sourcing to WhatsApp candidate outreach, consultant screening, and client interview coordination — fully automated.",
+    tag_resume: "Resume Matching", tag_scheduling: "Interview Scheduling", tag_ats: "ATS Integration", tag_analytics: "Pipeline Analytics",
+    qa_title: "Software QA Automation Agent",
+    qa_desc: "AI-powered test generation and execution. Automatically creates test cases from requirements, runs regression suites, detects flaky tests, and reports bugs with actionable context — reducing QA cycles by up to 70%.",
+    tag_testgen: "Test Case Generation", tag_regression: "Regression Testing", tag_bug: "Bug Detection", tag_flaky: "Flaky Test Analysis", tag_coverage: "Coverage Reports",
+    custom_title: "Custom AI Agents",
+    custom_desc: "Have a unique workflow? We build bespoke AI agents tailored to your industry, your data, and your processes. Finance, legal, logistics, customer support — whatever you need automated.",
+    tag_custom_wf: "Custom Workflows", tag_industry: "Industry-Specific", tag_onprem: "On-Premise Option", tag_support: "Dedicated Support",
+    features_label: "WHY KDX", features_title: "Built for Business, Not Just Demos",
+    features_sub: "Our agents are production-grade — secure, scalable, and integrated with the tools you already use.",
+    feat_whatsapp: "WhatsApp & Email Integration",
+    feat_whatsapp_desc: "Agents communicate natively through WhatsApp and email — no new apps for your team or customers to learn.",
+    feat_excel: "Excel & ATS Integration",
+    feat_excel_desc: "All data syncs to Excel spreadsheets — your existing workflow, supercharged. No database migration needed.",
+    feat_compliance: "Compliance & Audit Trail",
+    feat_compliance_desc: "Every action logged. Every decision traceable. Built for regulated industries that need transparency.",
+    feat_multi: "Multi-Industry Support",
+    feat_multi_desc: "Agents understand banking, finance, technology, and more. Industry-specific compliance and terminology built in.",
+    feat_config: "Configurable, No Code",
+    feat_config_desc: "Change agency name, consultants, thresholds — everything is spreadsheet-configurable. Zero code changes to rebrand.",
+    feat_cloud: "Cloud or On-Premise",
+    feat_cloud_desc: "Deploy on your infrastructure or ours. Full data sovereignty — your data never leaves your control.",
+    how_label: "HOW IT WORKS", how_title: "Deploy in Days, Not Months",
+    how_sub: "Our vertical agents come pre-built for specific use cases. You configure, we deploy, you run.",
+    step1_title: "Choose Your Agent", step1_desc: "Pick from our ready-to-deploy vertical agents — Recruitment, QA, or request a custom build.",
+    step2_title: "Configure & Brand", step2_desc: "Set your agency name, team members, WhatsApp numbers, and preferences in a simple spreadsheet.",
+    step3_title: "Connect & Launch", step3_desc: "Pair your WhatsApp Business number, point to your data folders, and go live. Training included.",
+    step4_title: "Monitor & Scale", step4_desc: "Track pipeline metrics in real-time. Add more agents, more users, more workflows as you grow.",
+    consult_label: "SERVICES", consult_title: "AI Consulting",
+    consult_sub: "Need something bespoke? We design and build custom AI agents for your unique business challenges.",
+    consult_heading: "We Build AI Agents<br>For Your Business",
+    consult_desc: "From discovery to deployment, our team works with you to identify automation opportunities, design the agent architecture, integrate with your existing systems, and ensure production readiness.",
+    cons_tag1: "Discovery Workshop", cons_tag2: "Agent Architecture Design", cons_tag3: "API & System Integration",
+    cons_tag4: "Custom Model Fine-Tuning", cons_tag5: "RAG Pipeline Setup", cons_tag6: "Production Deployment",
+    cons_tag7: "Ongoing Support & Monitoring", cons_tag8: "Team Training",
+    cta_title: "Ready to Automate?", cta_sub: "Let's discuss which AI agent fits your workflow — or build one together.", cta_btn: "Get in Touch",
+  },
+
+  "zh-Hant": {
+    nav_products: "產品", nav_features: "功能", nav_consulting: "諮詢服務", nav_contact: "聯絡我們",
+    hero_badge: "🚀 垂直AI智能體",
+    hero_title: '為您<span>工作</span>的AI智能體',
+    hero_sub: "KDX Digital 打造專用AI智能體，自動化您最重複且高量的工作流程——從招聘頂尖人才到大規模軟體品質保證。",
+    hero_btn1: "探索產品", hero_btn2: "預約演示",
+    products_label: "產品", products_title: "垂直AI智能體",
+    products_sub: "針對特定業務功能的即用型AI智能體。無需開發——只需配置即可運行。",
+    recruit_title: "招聘自動化智能體",
+    recruit_desc: "AI驅動的端到端招聘流程。從JD收集、LinkedIn搜尋到WhatsApp候選人聯繫、顧問篩選及客戶面試協調——全面自動化。",
+    tag_resume: "履歷匹配", tag_scheduling: "面試排程", tag_ats: "ATS整合", tag_analytics: "流程分析",
+    qa_title: "軟體QA自動化智能體",
+    qa_desc: "AI驅動的測試生成與執行。自動從需求建立測試案例、執行回歸測試、檢測不穩定測試，並附上可操作的錯誤報告——減少高達70%的QA週期。",
+    tag_testgen: "測試案例生成", tag_regression: "回歸測試", tag_bug: "錯誤檢測", tag_flaky: "不穩定測試分析", tag_coverage: "覆蓋率報告",
+    custom_title: "客製化AI智能體",
+    custom_desc: "有獨特的工作流程？我們為您的行業、數據和流程打造專屬AI智能體。金融、法律、物流、客戶支援——任何您需要自動化的領域。",
+    tag_custom_wf: "客製化流程", tag_industry: "行業專屬", tag_onprem: "本地部署選項", tag_support: "專屬支援",
+    features_label: "為何選擇KDX", features_title: "為商業而生，不僅是演示",
+    features_sub: "我們的智能體是生產級別——安全、可擴展，並與您現有的工具整合。",
+    feat_whatsapp: "WhatsApp與郵件整合",
+    feat_whatsapp_desc: "智能體原生透過WhatsApp和郵件溝通——您的團隊或客戶無需學習新應用。",
+    feat_excel: "Excel與ATS整合",
+    feat_excel_desc: "所有數據同步至Excel試算表——您現有的工作流程，全面升級。無需數據庫遷移。",
+    feat_compliance: "合規與審計追蹤",
+    feat_compliance_desc: "每個操作皆有記錄。每個決策皆可追溯。專為需要透明度的受監管行業打造。",
+    feat_multi: "跨行業支援",
+    feat_multi_desc: "智能體理解銀行、金融、科技等行業。內建行業特定的合規和術語。",
+    feat_config: "可配置，無需編碼",
+    feat_config_desc: "更改公司名稱、顧問、門檻值——所有設定皆可在試算表中完成。零程式碼即可重新品牌化。",
+    feat_cloud: "雲端或本地部署",
+    feat_cloud_desc: "部署在您的基礎設施或我們的平台上。完全的數據主權——您的數據永遠不會離開您的控制。",
+    how_label: "如何運作", how_title: "數天內部署，而非數月",
+    how_sub: "我們的垂直智能體針對特定用例預先構建。您配置，我們部署，您運行。",
+    step1_title: "選擇您的智能體", step1_desc: "從我們即用型垂直智能體中挑選——招聘、QA，或請求客製化開發。",
+    step2_title: "配置與品牌化", step2_desc: "在簡單的試算表中設定您的公司名稱、團隊成員、WhatsApp號碼和偏好。",
+    step3_title: "連接與上線", step3_desc: "配對您的WhatsApp Business號碼，指向您的數據文件夾，即可上線。包含培訓。",
+    step4_title: "監控與擴展", step4_desc: "即時追蹤流程指標。隨著您的成長，新增更多智能體、更多用戶、更多工作流程。",
+    consult_label: "服務", consult_title: "AI諮詢服務",
+    consult_sub: "需要客製化解決方案？我們為您獨特的業務挑戰設計和構建專屬AI智能體。",
+    consult_heading: "我們為您的企業<br>構建AI智能體",
+    consult_desc: "從需求發現到部署上線，我們的團隊與您合作識別自動化機會、設計智能體架構、整合現有系統，並確保生產就緒。",
+    cons_tag1: "需求發現工作坊", cons_tag2: "智能體架構設計", cons_tag3: "API與系統整合",
+    cons_tag4: "客製化模型微調", cons_tag5: "RAG流程設置", cons_tag6: "生產環境部署",
+    cons_tag7: "持續支援與監控", cons_tag8: "團隊培訓",
+    cta_title: "準備好自動化了嗎？", cta_sub: "讓我們討論哪個AI智能體適合您的工作流程——或一起構建一個。", cta_btn: "與我們聯繫",
+  },
+
+  "zh-Hans": {
+    nav_products: "产品", nav_features: "功能", nav_consulting: "咨询服务", nav_contact: "联系我们",
+    hero_badge: "🚀 垂直AI智能体",
+    hero_title: '为您<span>工作</span>的AI智能体',
+    hero_sub: "KDX Digital 打造专用AI智能体，自动化您最重复且高量的工作流程——从招聘顶尖人才到大规模软件质量保证。",
+    hero_btn1: "探索产品", hero_btn2: "预约演示",
+    products_label: "产品", products_title: "垂直AI智能体",
+    products_sub: "针对特定业务功能的即用型AI智能体。无需开发——只需配置即可运行。",
+    recruit_title: "招聘自动化智能体",
+    recruit_desc: "AI驱动的端到端招聘流程。从JD收集、LinkedIn搜索到WhatsApp候选人联系、顾问筛选及客户面试协调——全面自动化。",
+    tag_resume: "简历匹配", tag_scheduling: "面试排程", tag_ats: "ATS集成", tag_analytics: "流程分析",
+    qa_title: "软件QA自动化智能体",
+    qa_desc: "AI驱动的测试生成与执行。自动从需求创建测试用例、执行回归测试、检测不稳定测试，并附上可操作的错误报告——减少高达70%的QA周期。",
+    tag_testgen: "测试用例生成", tag_regression: "回归测试", tag_bug: "错误检测", tag_flaky: "不稳定测试分析", tag_coverage: "覆盖率报告",
+    custom_title: "定制化AI智能体",
+    custom_desc: "有独特的工作流程？我们为您的行业、数据和流程打造专属AI智能体。金融、法律、物流、客户支持——任何您需要自动化的领域。",
+    tag_custom_wf: "定制化流程", tag_industry: "行业专属", tag_onprem: "本地部署选项", tag_support: "专属支持",
+    features_label: "为何选择KDX", features_title: "为商业而生，不仅是演示",
+    features_sub: "我们的智能体是生产级别——安全、可扩展，并与您现有的工具集成。",
+    feat_whatsapp: "WhatsApp与邮件集成",
+    feat_whatsapp_desc: "智能体原生通过WhatsApp和邮件沟通——您的团队或客户无需学习新应用。",
+    feat_excel: "Excel与ATS集成",
+    feat_excel_desc: "所有数据同步至Excel电子表格——您现有的工作流程，全面升级。无需数据库迁移。",
+    feat_compliance: "合规与审计追踪",
+    feat_compliance_desc: "每个操作皆有记录。每个决策皆可追溯。专为需要透明度的受监管行业打造。",
+    feat_multi: "跨行业支持",
+    feat_multi_desc: "智能体理解银行、金融、科技等行业。内置行业特定的合规和术语。",
+    feat_config: "可配置，无需编码",
+    feat_config_desc: "更改公司名称、顾问、阈值——所有设置皆可在电子表格中完成。零代码即可重新品牌化。",
+    feat_cloud: "云端或本地部署",
+    feat_cloud_desc: "部署在您的基础设施或我们的平台上。完全的数据主权——您的数据永远不会离开您的控制。",
+    how_label: "如何运作", how_title: "数天内部署，而非数月",
+    how_sub: "我们的垂直智能体针对特定用例预先构建。您配置，我们部署，您运行。",
+    step1_title: "选择您的智能体", step1_desc: "从我们即用型垂直智能体中挑选——招聘、QA，或请求定制化开发。",
+    step2_title: "配置与品牌化", step2_desc: "在简单的电子表格中设定您的公司名称、团队成员、WhatsApp号码和偏好。",
+    step3_title: "连接与上线", step3_desc: "配对您的WhatsApp Business号码，指向您的数据文件夹，即可上线。包含培训。",
+    step4_title: "监控与扩展", step4_desc: "实时追踪流程指标。随着您的成长，新增更多智能体、更多用户、更多工作流程。",
+    consult_label: "服务", consult_title: "AI咨询服务",
+    consult_sub: "需要定制化解决方案？我们为您独特的业务挑战设计和构建专属AI智能体。",
+    consult_heading: "我们为您的企业<br>构建AI智能体",
+    consult_desc: "从需求发现到部署上线，我们的团队与您合作识别自动化机会、设计智能体架构、集成现有系统，并确保生产就绪。",
+    cons_tag1: "需求发现工作坊", cons_tag2: "智能体架构设计", cons_tag3: "API与系统集成",
+    cons_tag4: "定制化模型微调", cons_tag5: "RAG流程设置", cons_tag6: "生产环境部署",
+    cons_tag7: "持续支持与监控", cons_tag8: "团队培训",
+    cta_title: "准备好自动化了吗？", cta_sub: "让我们讨论哪个AI智能体适合您的工作流程——或一起构建一个。", cta_btn: "与我们联系",
+  }
+};
+
+let currentLang = 'en';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`).classList.add('active');
+
+  const t = translations[lang];
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key]) {
+      if (key === 'hero_title') {
+        el.innerHTML = t[key]; // preserve <span>
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // Save preference
+  try { localStorage.setItem('kdx_lang', lang); } catch(e) {}
+}
+
+// Restore saved language
+(function() {
+  try { const saved = localStorage.getItem('kdx_lang'); if (saved && translations[saved]) switchLang(saved); } catch(e) {}
+})();
+</script>
+
+</body>
+</html>
