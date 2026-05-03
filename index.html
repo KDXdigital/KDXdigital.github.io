@@ -28,8 +28,8 @@
     backdrop-filter: blur(10px); flex-wrap: wrap; gap: 12px;
   }
   .nav-left { display: flex; align-items: center; gap: 24px; }
-  .nav-logo { font-size: 22px; font-weight: 900; letter-spacing: 3px; color: var(--teal); }
-  .nav-logo span { color: var(--text); font-weight: 400; font-size: 14px; letter-spacing: 2px; margin-left: 6px; }
+  .nav-logo { display: flex; align-items: center; gap: 0; }
+  .nav-logo img { height: 42px; width: auto; }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: color 0.2s; cursor: pointer; }
   .nav-links a:hover { color: var(--teal); }
@@ -160,7 +160,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-left">
-    <div class="nav-logo">KDX<span>DIGITAL</span></div>
+    <div class="nav-logo"><img src="KDX_Icon_Dark.svg" alt="KDX Digital"></div>
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="switchLang('en')">EN</button>
       <button class="lang-btn" onclick="switchLang('zh-Hant')">繁</button>

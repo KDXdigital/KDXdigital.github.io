@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4AA"/>
+      <stop offset="50%" style="stop-color:#0099CC"/>
+      <stop offset="100%" style="stop-color:#0066CC"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00F5C8"/>
+      <stop offset="100%" style="stop-color:#0088DD"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#0A0E27"/>
+
+  <!-- Subtle grid pattern -->
+  <g opacity="0.04">
+    <line x1="0" y1="100" x2="800" y2="100" stroke="#00D4AA" stroke-width="1"/>
+    <line x1="0" y1="200" x2="800" y2="200" stroke="#00D4AA" stroke-width="1"/>
+    <line x1="0" y1="300" x2="800" y2="300" stroke="#00D4AA" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="400" stroke="#00D4AA" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="400" stroke="#00D4AA" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="400" stroke="#00D4AA" stroke-width="1"/>
+  </g>
+
+  <!-- Icon: KDX monogram with AI circuit nodes -->
+  <g transform="translate(80, 80)">
+    <!-- Central hexagon (AI / neural motif) -->
+    <polygon points="100,10 180,50 180,130 100,170 20,130 20,50" 
+             fill="none" stroke="url(#mainGrad)" stroke-width="3" opacity="0.6"/>
+    
+    <!-- Inner hexagon -->
+    <polygon points="100,35 155,65 155,115 100,145 45,115 45,65" 
+             fill="none" stroke="url(#mainGrad)" stroke-width="1.5" opacity="0.3"/>
+
+    <!-- KDX letters in the center -->
+    <text x="100" y="105" text-anchor="middle" 
+          font-family="Arial Black, sans-serif" font-size="52" font-weight="900"
+          fill="url(#mainGrad)" letter-spacing="4">KDX</text>
+
+    <!-- Neural connection nodes -->
+    <circle cx="20" cy="90" r="6" fill="url(#nodeGrad)" opacity="0.9"/>
+    <circle cx="180" cy="90" r="6" fill="url(#nodeGrad)" opacity="0.9"/>
+    <circle cx="100" cy="10" r="6" fill="url(#nodeGrad)" opacity="0.9"/>
+    <circle cx="100" cy="170" r="6" fill="url(#nodeGrad)" opacity="0.9"/>
+    <circle cx="50" cy="35" r="4" fill="url(#nodeGrad)" opacity="0.6"/>
+    <circle cx="150" cy="35" r="4" fill="url(#nodeGrad)" opacity="0.6"/>
+    <circle cx="50" cy="145" r="4" fill="url(#nodeGrad)" opacity="0.6"/>
+    <circle cx="150" cy="145" r="4" fill="url(#nodeGrad)" opacity="0.6"/>
+
+    <!-- Connection lines between nodes -->
+    <line x1="26" y1="90" x2="94" y2="16" stroke="url(#mainGrad)" stroke-width="1" opacity="0.3"/>
+    <line x1="174" y1="90" x2="106" y2="16" stroke="url(#mainGrad)" stroke-width="1" opacity="0.3"/>
+    <line x1="26" y1="90" x2="94" y2="164" stroke="url(#mainGrad)" stroke-width="1" opacity="0.3"/>
+    <line x1="174" y1="90" x2="106" y2="164" stroke="url(#mainGrad)" stroke-width="1" opacity="0.3"/>
+  </g>
+
+  <!-- Company Name -->
+  <text x="380" y="145" font-family="Arial Black, sans-serif" font-size="48" font-weight="900"
+        fill="#FFFFFF" letter-spacing="6">KDX DIGITAL</text>
+  
+  <!-- Tagline -->
+  <text x="380" y="195" font-family="Calibri, sans-serif" font-size="16" 
+        fill="#00D4AA" letter-spacing="8" opacity="0.8">AI SERVICES</text>
+
+  <!-- Subtitle -->
+  <text x="380" y="240" font-family="Calibri, sans-serif" font-size="12" 
+        fill="#667788" letter-spacing="3">INTELLIGENT  •  AUTOMATED  •  TRANSFORMATIVE</text>
+
+  <!-- Bottom decorative line -->
+  <line x1="300" y1="275" x2="700" y2="275" stroke="url(#mainGrad)" stroke-width="2" opacity="0.5"/>
+  <circle cx="300" cy="275" r="3" fill="#00D4AA"/>
+  <circle cx="700" cy="275" r="3" fill="#00D4AA"/>
+
+  <!-- Small particle effects -->
+  <circle cx="280" cy="180" r="1.5" fill="#00D4AA" opacity="0.4"/>
+  <circle cx="720" cy="160" r="1" fill="#00D4AA" opacity="0.3"/>
+  <circle cx="320" cy="260" r="1" fill="#0099CC" opacity="0.3"/>
+  <circle cx="680" cy="200" r="1.5" fill="#0099CC" opacity="0.4"/>
+</svg>
